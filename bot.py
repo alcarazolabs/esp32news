@@ -19,7 +19,6 @@ import pytz
 
 import requests #
 from bs4 import BeautifulSoup #pip install beautifulsoup4
-import time
 client = requests.Session()
 
 
@@ -53,11 +52,54 @@ def getFechaActual():
 
     return fecha_actual
 
+noticias = ""
+
+# Noticias del diario la republica.
+noticias += "Estas son las noticias en portada del diario la republica.\\n"
+noticias += "Sección Economia.\\n"
+
+# Obtener la noticias de portada principal:
+# Sección Economia:
+# Larepublica.pe bloqueaba el scrapper se tubo que usar cabeceras:
+
+url = "https://larepublica.pe/"
+headers = {
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/118.0"
+}
+
+soup = BeautifulSoup(requests.get(url, headers=headers).content, "html.parser")
+
+for h2 in soup.select("div:has(*:-soup-contains(Economía)) + div h2"):
+    #print(h2.text)
+    noticias += h2.text + "\\n"
+
+# Obtener noticias de sección Politica:
+noticias += "Sección de Politica\\n"
+for h2 in soup.select("div:has(*:-soup-contains(Política)) + div h2"):
+    noticias += h2.text+"\\n"
+
+
+# Obtener noticias de sección Sociedad:
+noticias += "Sección de Sociedad\\n"
+for h2 in soup.select("div:has(*:-soup-contains(Sociedad)) + div h2"):
+    noticias += h2.text+"\\n"
+
+# Obtener noticias de sección Mundo:
+noticias += "Sección de Mundo\\n"
+for h2 in soup.select("div:has(*:-soup-contains(Mundo)) + div h2"):
+    noticias += h2.text + "\\n"
+
+# Obtener noticias de sección Tecnología:
+noticias += "Sección de Tecnología\\n"
+for h2 in soup.select("div:has(*:-soup-contains(Tecnología)) + div h2"):
+    noticias += h2.text + "\\n"
+
+
 
 # Noticias EuropaPress PortalTic
 html = client.get("https://www.europapress.es/portaltic/")
 soup = BeautifulSoup(html.text, 'html.parser')
-noticias= "Estas son las noticias de EuropaPress portal tic.\\n"
+noticias += "Estas son las noticias de EuropaPress portal tic.\\n"
 
 # Obtener la noticia de portada principal
 for div in soup.findAll('h2', attrs={'class':'titulo-principal'}):
@@ -88,8 +130,6 @@ for div in soup.findAll('div', attrs={'class':'HeaderNews-root HeaderNews-type_4
     n = div.text.strip() # Eliminar "\n"
     noticias += n + "\\n"
 
-print(noticias)
-
 
 # Inserta datos en la tabla "news"
 news = News(news=noticias, created_at=getFechaActual())
@@ -102,7 +142,6 @@ session.commit()
 
 # Cierra la sesión
 session.close()
-
 
 
 print("Done!");

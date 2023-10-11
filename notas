@@ -1,0 +1,5 @@
+Si hay problema para instalar mysqlcliente en ubuntu seguir estos pasos:
+https://askubuntu.com/questions/1321141/unable-to-install-mysqlclient-on-ubuntu-20-10 :
+sudo apt-get install python3-dev default-libmysqlclient-dev build-essential pkg-config
+
+pip install mysqlclient

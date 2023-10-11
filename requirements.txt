@@ -12,3 +12,4 @@ SQLAlchemy==2.0.21
 mysqlclient
 beautifulsoup4
 requests
+paho-mqtt

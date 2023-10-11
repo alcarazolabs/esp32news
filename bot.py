@@ -68,7 +68,6 @@ for div in soup.findAll('h2', attrs={'class':'titulo-principal'}):
 for div in soup.findAll('h2', attrs={'class':'home-articulo-titulo'}):
     noticias += div.text + "\\n"
 
-noticias = ""
 # Noticias Russia Today
 noticias += "Estas son las noticias del portal Rusia Today en español.\\n"
 html = client.get("https://actualidad.rt.com/")

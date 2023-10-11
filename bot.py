@@ -53,20 +53,38 @@ def getFechaActual():
 
     return fecha_actual
 
-
+# Noticias EuropaPress PortalTic
 html = client.get("https://www.europapress.es/portaltic/")
 soup = BeautifulSoup(html.text, 'html.parser')
-
-noticiasEuropaPress = "Estas son las noticias de EuropaPress portal tic.\\n"
+noticias= "Estas son las noticias de EuropaPress portal tic.\\n"
 
 # Obtener la noticia de portada principal
 for div in soup.findAll('h2', attrs={'class':'titulo-principal'}):
-    noticiasEuropaPress += div.text+"\\n"
+    noticias += div.text+"\\n"
     #print(div.text)
 
 # Obtener el resto de noticias listado:
 for div in soup.findAll('h2', attrs={'class':'home-articulo-titulo'}):
-    noticiasEuropaPress += div.text + "\\n"
+    noticias += div.text + "\\n"
+
+# Noticias Russia Today
+noticias += "Estas son las noticias del portal Russia Today en español.\\n"
+html = client.get("https://actualidad.rt.com/")
+soup = BeautifulSoup(html.text, 'html.parser')
+
+# Obtener la noticia de portada principal
+
+for div in soup.findAll('div', attrs={'class':'HeaderNews-root HeaderNews-type_2'}):
+    noticias += div.text+"\\n"
+
+
+for div in soup.findAll('div', attrs={'class':'HeaderNews-root HeaderNews-type_5'}):
+    noticias += div.text+"\\n"
+
+for div in soup.findAll('div', attrs={'class':'HeaderNews-root HeaderNews-type_4'}):
+    noticias += div.text+"\\n"
+
+print(noticias)
 
 """
 # Inserta datos en la tabla "news"

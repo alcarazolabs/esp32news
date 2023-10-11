@@ -84,11 +84,11 @@ for div in soup.findAll('div', attrs={'class':'HeaderNews-root HeaderNews-type_5
 for div in soup.findAll('div', attrs={'class':'HeaderNews-root HeaderNews-type_4'}):
     noticias += div.text+"\\n"
 
-print(noticias)
+#print(noticias)
 
-"""
+
 # Inserta datos en la tabla "news"
-news = News(news=noticiasEuropaPress, created_at=getFechaActual())
+news = News(news=noticias, created_at=getFechaActual())
 
 # Agrega las nuevas noticias a la sesión
 session.add(news)
@@ -99,6 +99,4 @@ session.commit()
 # Cierra la sesión
 session.close()
 
-
-"""
 

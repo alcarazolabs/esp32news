@@ -53,6 +53,7 @@ def getFechaActual():
 
     return fecha_actual
 
+
 # Noticias EuropaPress PortalTic
 html = client.get("https://www.europapress.es/portaltic/")
 soup = BeautifulSoup(html.text, 'html.parser')
@@ -67,6 +68,7 @@ for div in soup.findAll('h2', attrs={'class':'titulo-principal'}):
 for div in soup.findAll('h2', attrs={'class':'home-articulo-titulo'}):
     noticias += div.text + "\\n"
 
+noticias = ""
 # Noticias Russia Today
 noticias += "Estas son las noticias del portal Rusia Today en español.\\n"
 html = client.get("https://actualidad.rt.com/")
@@ -75,20 +77,19 @@ soup = BeautifulSoup(html.text, 'html.parser')
 # Obtener la noticia de portada principal
 
 for div in soup.findAll('div', attrs={'class':'HeaderNews-root HeaderNews-type_2'}):
-    n = div.text.rstrip() # Eliminar "\n"
+    n = div.text.strip() # Eliminar "\n"
     noticias += n+"\\n"
 
 
 for div in soup.findAll('div', attrs={'class':'HeaderNews-root HeaderNews-type_5'}):
-    n = div.text.rstrip() # Eliminar "\n"
+    n = div.text.strip() # Eliminar "\n"
     noticias += n + "\\n"
 
 for div in soup.findAll('div', attrs={'class':'HeaderNews-root HeaderNews-type_4'}):
-    n = div.text.rstrip() # Eliminar "\n"
+    n = div.text.strip() # Eliminar "\n"
     noticias += n + "\\n"
 
-#print(noticias)
-
+print(noticias)
 
 
 # Inserta datos en la tabla "news"
@@ -102,6 +103,8 @@ session.commit()
 
 # Cierra la sesión
 session.close()
+
+
 
 print("Done!");
 

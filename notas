@@ -3,3 +3,14 @@ https://askubuntu.com/questions/1321141/unable-to-install-mysqlclient-on-ubuntu-
 sudo apt-get install python3-dev default-libmysqlclient-dev build-essential pkg-config
 
 pip install mysqlclient
+
+# Sobre el crontab:
+1. Dar permisos de ejecucion al script bash:
+chmod +x cronjob.sh
+2. Crear tarea crontab
+ - Iniciar sesion como usuario root
+ # Abrir crontab file:
+ $ crontab -e
+ Agregar:
+ */30 * * * * cd /home/ubuntu/esp32news && sh cronjob.sh
+ Esto ejecutara el script cronjob cada 30 minutos.

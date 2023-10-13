@@ -65,4 +65,4 @@ if __name__ == "__main__":
     #app.run() # Only usi this for heroku deploy
 	# use the next code for docker image deploy:
 	#port = int(os.environ.get('PORT', 5000))
-	app.run(host='192.168.18.42', port=5000)
+	app.run(host='192.168.18.27', port=5000)

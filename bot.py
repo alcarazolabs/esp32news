@@ -73,10 +73,27 @@ def getFechaActual():
 
     return fecha_actual
 
-def doWork():
+def doWork() :
+    # =============================================================================================
+    noticias = "Estas son las noticias del diario el Peruano."
 
-    noticias = ""
+    # Obtener noticia principal
+    principal_news = requests.get('https://elperuano.pe/Portal/_GetPortadaPrincipal').json()
+    noticias += principal_news['vchTitulo'].strip() + "\\n"
 
+    noticias += "Estas son las noticias destacadas del diario el peruano.\\n"
+    # Obtener noticias destacadas
+    recommended_news = requests.get('https://elperuano.pe/Portal/_GetNoticiasDestacadas').json()
+    for news in recommended_news:
+        noticias += news['vchTitulo'].strip() + "\\n"
+
+    noticias += "Estas son las ultimas noticias del diario el peruano.\\n"
+    # Obtener ultimas noticias
+    last_news = requests.get('https://elperuano.pe/Portal/_GetNoticiasLoUltimo').json()
+    for news in last_news:
+        noticias += news['vchTitulo'].strip() + "\\n"
+
+    # =============================================================================================
     # Noticias del diario la republica.
     noticias += "Estas son las noticias en portada del diario la republica.\\n"
     noticias += "Sección Economia.\\n"
@@ -117,8 +134,7 @@ def doWork():
     for h2 in soup.select("div:has(*:-soup-contains(Tecnología)) + div h2"):
         noticias += h2.text + "\\n"
 
-
-
+    # =============================================================================================
     # Noticias EuropaPress PortalTic
     html = client.get("https://www.europapress.es/portaltic/")
     soup = BeautifulSoup(html.text, 'html.parser')
@@ -133,6 +149,7 @@ def doWork():
     for div in soup.findAll('h2', attrs={'class':'home-articulo-titulo'}):
         noticias += div.text + "\\n"
 
+    # =============================================================================================
     # Noticias Russia Today
     noticias += "Estas son las noticias del portal Rusia Today en español.\\n"
     html = client.get("https://actualidad.rt.com/")
@@ -168,7 +185,6 @@ def doWork():
 
     print("Done!");
     mqttClient.publish("/project/news", "R")  # R = read
-
 
 
 mqttClient = mqtt.Client()
